@@ -1,0 +1,83 @@
+{
+  "name": "vue-wechat-template",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "commit": "git-cz",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,vue}": [
+      "vue-cli-service lint"
+    ],
+    "src/**/*.{vue,htm,html,css,sss,less,scss}": [
+      "vue-cli-service lint:style"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "core-js": "^3.6.4",
+    "dayjs": "^1.8.27",
+    "good-storage": "^1.1.1",
+    "js-cookie": "^2.2.1",
+    "numeral": "^2.0.6",
+    "register-service-worker": "^1.7.1",
+    "vant": "^2.8.2",
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.6",
+    "vue-wechat-title": "^2.0.5",
+    "vuex": "^3.4.0",
+    "weixin-js-sdk": "^1.6.0"
+  },
+  "devDependencies": {
+    "@ascendancyy/vue-cli-plugin-stylelint": "^1.1.2",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@vue/cli-plugin-babel": "~4.3.0",
+    "@vue/cli-plugin-eslint": "~4.3.0",
+    "@vue/cli-plugin-pwa": "~4.3.0",
+    "@vue/cli-plugin-router": "~4.3.0",
+    "@vue/cli-plugin-vuex": "~4.3.0",
+    "@vue/cli-service": "~4.3.0",
+    "@vue/eslint-config-standard": "^5.1.2",
+    "archiver": "^4.0.1",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-import": "^1.13.0",
+    "commitizen": "^4.1.2",
+    "compression-webpack-plugin": "^4.0.0",
+    "cz-conventional-changelog": "^3.2.0",
+    "eslint": "^7.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "husky": "^4.2.5",
+    "inquirer": "^7.1.0",
+    "less": "^3.0.4",
+    "less-loader": "^6.1.0",
+    "lint-staged": "^10.2.4",
+    "node-ssh": "^10.0.1",
+    "postcss-px-to-viewport": "^1.1.1",
+    "stylelint": "^13.4.1",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.0.0",
+    "terser-webpack-plugin": "^3.0.1",
+    "vconsole": "^3.3.4",
+    "vue-template-compiler": "^2.6.11"
+  }
+}
