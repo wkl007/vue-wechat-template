@@ -10,7 +10,7 @@ const routes = [
     name: 'Home',
     component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
     meta: {
-      title: 'Home'
+      title: '首页'
     }
   },
   {
@@ -18,7 +18,7 @@ const routes = [
     name: 'About',
     component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
     meta: {
-      title: 'About'
+      title: '关于'
     }
   }
 ]
