@@ -8,7 +8,7 @@ export const listMixin = {
       isListLoading: false,
       finished: false,
       error: false,
-      isPullRefresh: false,
+      isPullRefresh: false
     }
   }
 }

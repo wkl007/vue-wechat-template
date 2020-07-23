@@ -52,7 +52,7 @@ export const throttle = (func, gapTime) => {
  * @param fn 升序(a, b) => a - b) 降序 (a, b) => b - a)
  * @returns {*}
  */
-export const bubble_sort = (arr, fn) => {
+export const bubbleSort = (arr, fn) => {
   let len = arr.length
   while (len--) {
     for (let i = 0;

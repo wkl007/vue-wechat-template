@@ -43,11 +43,11 @@ module.exports = {
           warnings: false,
           compress: {
             drop_debugger: true,
-            drop_console: true,
-          },
+            drop_console: true
+          }
         },
         sourceMap: false,
-        parallel: true,
+        parallel: true
       }),
       // gzip压缩
       new CompressionWebpackPlugin({
@@ -56,11 +56,11 @@ module.exports = {
         test: new RegExp(
           '\\.(' +
           ['js', 'css'].join('|') +
-          ')$',
+          ')$'
         ),
         threshold: 10240,
-        minRatio: 0.8,
-      }),
+        minRatio: 0.8
+      })
     ]
     if (process.env.NODE_ENV === 'production') {
       config.plugins = [...config.plugins, ...plugins]
@@ -86,7 +86,7 @@ module.exports = {
           javascriptEnabled: true
         }
       }
-    },
+    }
   },
   // webpack-dev-server配置
   devServer: {

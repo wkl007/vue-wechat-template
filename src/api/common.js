@@ -5,7 +5,7 @@ export default class CommonServer {
   // 登录
   static login (data) {
     return request({
-      url: `/web/authorize/handle`,
+      url: '/web/authorize/handle',
       method: 'post',
       data
     })
@@ -14,7 +14,7 @@ export default class CommonServer {
   // 微信签名
   static getWechatSignature (data) {
     return request({
-      url: `/wechat/signature/create`,
+      url: '/wechat/signature/create',
       method: 'post',
       data
     })

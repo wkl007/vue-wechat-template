@@ -19,7 +19,7 @@ export function wxConfig (jsApiList = ['updateAppMessageShareData', 'updateTimel
     const { loginStatus } = store.getters
     if (loginStatus !== 2) return
     const data = {
-      url: window.location.href,
+      url: window.location.href
     }
     const { appId, timeStamp, nonceStr, signature } = (await CommonServer.getWechatSignature(data)).data
     wx.config({
@@ -129,7 +129,7 @@ export function wxOpenLocation (data) {
         },
         fail: err => {
           reject(err)
-        },
+        }
       })
     }).catch(err => {
       reject(err)

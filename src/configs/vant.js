@@ -38,7 +38,7 @@ import {
   TabbarItem,
   Tabs,
   Tag,
-  Toast,
+  Toast
 } from 'vant'
 
 Dialog.setDefaultOptions({

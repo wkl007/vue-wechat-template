@@ -17,7 +17,7 @@ class VueWechatAuthPlugin {
     Vue.mixin({
       created: function () {
         this.$wechatAuth = wechatAuth
-      },
+      }
     })
   }
 
@@ -31,8 +31,8 @@ class VueWechatAuthPlugin {
   }
 
   // eslint-disable-next-line camelcase
-  set redirect_uri (redirect_uri) {
-    this._redirect_uri = encodeURIComponent(redirect_uri)
+  set redirect_uri (redirectUri) {
+    this._redirect_uri = encodeURIComponent(redirectUri)
   }
 
   // eslint-disable-next-line camelcase
@@ -57,8 +57,8 @@ class VueWechatAuthPlugin {
     return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.appid}&redirect_uri=${this.redirect_uri}&response_type=code&scope=${this.scope}&state=${this.state}#wechat_redirect`
   }
 
-  returnFromWechat (redirect_uri) {
-    const parsedUrl = qs.parse(redirect_uri.split('?')[1])
+  returnFromWechat (redirectUri) {
+    const parsedUrl = qs.parse(redirectUri.split('?')[1])
     if (process.env.NODE_ENV === 'development') {
       this.state = null
       this._code = parsedUrl.code

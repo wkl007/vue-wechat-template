@@ -15,7 +15,7 @@ const config = [
       host: '192.168.0.110',
       port: 22,
       username: 'root',
-      password: 'root',
+      password: 'root'
       // privateKey: 'E:/id_rsa', // ssh私钥(不使用此方法时请勿填写， 注释即可)
       // passphrase: '123456' // ssh私钥对应解密密码(不存在设为''即可)
     },

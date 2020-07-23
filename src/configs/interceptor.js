@@ -65,7 +65,7 @@ function processUrl () {
  */
 function processLogin (code) {
   const data = {
-    code,
+    code
   }
   return new Promise(async (resolve, reject) => {
     try {
