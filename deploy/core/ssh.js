@@ -1,5 +1,5 @@
-const node_ssh = require('node-ssh')
-const ssh = new node_ssh()
+const NodeSSH = require('node-ssh').NodeSSH
+const ssh = new NodeSSH()
 
 // 连接服务器
 function connectServe (sshInfo) {

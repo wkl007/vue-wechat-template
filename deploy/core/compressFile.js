@@ -5,7 +5,7 @@ function compressFile (targetDir, localFile, releaseDir) {
   console.log(targetDir, localFile, releaseDir)
   return new Promise((resolve, reject) => {
     console.log('1-正在压缩文件...')
-    let output = fs.createWriteStream(localFile) // 创建文件写入流
+    const output = fs.createWriteStream(localFile) // 创建文件写入流
     const archive = archiver('zip', {
       zlib: { level: 9 } // 设置压缩等级
     })

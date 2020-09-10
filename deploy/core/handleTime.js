@@ -1,6 +1,6 @@
 // 获取当前时间
 function getCurrentTime () {
-  const date = new Date
+  const date = new Date()
   const yyyy = date.getFullYear()
   const MM = coverEachUnit(date.getMonth() + 1)
   const dd = coverEachUnit(date.getDate())

@@ -25,7 +25,7 @@ function showHelper (config) {
 
 // 初始化helper
 function initHelper (config) {
-  for (let item of config) {
+  for (const item of config) {
     options[0].choices.push(item.name)
   }
   console.log('正在检查全局配置信息...')
@@ -38,7 +38,7 @@ function initHelper (config) {
 
 // 查找符合条件的配置项
 function findInfoByName (config, name) {
-  for (let item of config) {
+  for (const item of config) {
     if (item.name === name) {
       return item
     }
