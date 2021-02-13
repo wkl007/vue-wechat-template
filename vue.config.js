@@ -40,14 +40,10 @@ module.exports = {
       // 去console
       new TerserPlugin({
         terserOptions: {
-          warnings: false,
           compress: {
-            drop_debugger: true,
             drop_console: true
           }
-        },
-        sourceMap: false,
-        parallel: true
+        }
       }),
       // gzip压缩
       new CompressionWebpackPlugin({
@@ -104,7 +100,12 @@ module.exports = {
   },
   // enabled by default if the machine has more than 1 cores
   parallel: require('os').cpus().length > 1,
-  pwa: {},
+  pwa: {
+    workboxOptions: {
+      skipWaiting: true,
+      clientsClaim: true
+    }
+  },
   // 第三方插件选项
   pluginOptions: {
     lintStyleOnBuild: true,
