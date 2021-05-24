@@ -1,8 +1,9 @@
 const path = require('path')
-const webpack = require('webpack')
+const { merge } = require('webpack-merge')
 
-const TerserPlugin = require('terser-webpack-plugin')// 去console插件
-const CompressionWebpackPlugin = require('compression-webpack-plugin')// gzip压缩插件
+const tsImportPluginFactory = require('ts-import-plugin') // 按需加载插件
+const TerserPlugin = require('terser-webpack-plugin') // 去 console 插件
+const CompressionWebpackPlugin = require('compression-webpack-plugin') // gzip 压缩插件
 
 const resolve = dir => path.join(__dirname, dir)
 
@@ -35,8 +36,6 @@ module.exports = {
   configureWebpack: config => {
     // config.name = name
     const plugins = [
-      // 忽略moment locale文件
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       // 去console
       new TerserPlugin({
         terserOptions: {
@@ -56,6 +55,14 @@ module.exports = {
         ),
         threshold: 10240,
         minRatio: 0.8
+      }),
+      // brotli压缩
+      new CompressionWebpackPlugin({
+        filename: '[path][base].br',
+        algorithm: 'brotliCompress',
+        test: /\.(js|css|html|svg)$/,
+        threshold: 10240,
+        minRatio: 0.8
       })
     ]
     if (process.env.NODE_ENV === 'production') {
@@ -65,11 +72,67 @@ module.exports = {
   chainWebpack: config => {
     config.resolve.alias
       .set('@', resolve('src'))
+
+    config.module
+      .rule('ts')
+      .use('ts-loader')
+      .tap(options => {
+        options = merge(options, {
+          transpileOnly: true,
+          getCustomTransformers: () => ({
+            before: [
+              tsImportPluginFactory({
+                libraryName: 'vant',
+                libraryDirectory: 'es',
+                style: (name) => `${name}/style/less`
+              })
+            ]
+          }),
+          compilerOptions: {
+            module: 'es2015'
+          }
+        })
+        return options
+      })
+
+    // externals配置
+    const externals = {
+      // axios: 'axios'
+    }
+    config.externals(externals)
+    // cdn配置
+    const cdnUrl = 'https://cdn.jsdelivr.net/npm/'
+    const cdn = {
+      // 开发环境
+      dev: {
+        css: [],
+        js: [
+          // axios
+          // `${cdnUrl}axios@0.21.0/dist/axios.js`
+        ]
+      },
+      // 生产环境
+      build: {
+        css: [],
+        js: [
+          // axios
+          // `${cdnUrl}axios@0.21.0/dist/axios.min.js`
+        ]
+      }
+    }
+
+    config.plugin('html').tap(args => {
+      if (process.env.NODE_ENV === 'production') {
+        args[0].cdn = cdn.build
+      }
+      if (process.env.NODE_ENV === 'development') {
+        args[0].cdn = cdn.dev
+      }
+      return args
+    })
   },
   // css相关配置
   css: {
-    // 启用 CSS modules
-    requireModuleExtension: true,
     // 开启 CSS source maps?
     sourceMap: false,
     // css预设器配置项
@@ -77,7 +140,11 @@ module.exports = {
       less: {
         lessOptions: {
           modifyVars: {
-            // 'primary-color': '#1DA57A'
+            /* red: '#f74042',
+            blue: '#4a90e2',
+            orange: '#ff9603',
+            'text-color': '#373737',
+            'border-color': '#e4e4e4' */
           },
           javascriptEnabled: true
         }
@@ -98,8 +165,8 @@ module.exports = {
     proxy: null, // 设置代理
     before: app => {}
   },
-  // enabled by default if the machine has more than 1 cores
-  parallel: require('os').cpus().length > 1,
+  // 使用ts-import-plugin parallel设置为false，原因参考https://www.jianshu.com/p/201ed7363a56
+  parallel: false,
   pwa: {
     workboxOptions: {
       skipWaiting: true,

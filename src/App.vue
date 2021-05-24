@@ -1,26 +1,20 @@
 <template>
-  <div id="app">
-    <keep-alive>
-      <router-view
-        v-wechat-title="$route.meta.title"
-        v-if="$route.meta.keepAlive"
-      />
-    </keep-alive>
-    <router-view
-      v-wechat-title="$route.meta.title"
-      v-if="!$route.meta.keepAlive"
-    />
-  </div>
+  <keep-alive>
+    <router-view v-if="$route.meta.keepAlive"/>
+  </keep-alive>
+  <router-view v-if="!$route.meta.keepAlive"/>
 </template>
 
-<script>
-export default {
-  created () {}
-}
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'App'
+})
 </script>
 
 <style lang="less">
-@import "~@/assets/styles/variables";
+@import "./assets/styles/variables";
 
 #app {
   color: @color-text;

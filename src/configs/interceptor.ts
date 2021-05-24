@@ -1,27 +1,21 @@
-import Vue from 'vue'
-import qs from 'qs'
+import { parse, stringify } from 'qs'
 import router from '@/router'
 import store from '@/store'
 import CommonServer from '@/api/common'
-import weChatAuth from '@/plugins/wechatAuth'
-import { APP_ID } from '@/utils/constants'
-
-Vue.use(weChatAuth, {
-  appid: APP_ID
-})
+import vueWechatAuth from '@/plugins/vueWechatAuth'
 
 router.beforeEach(async (to, from, next) => {
-  const { loginStatus } = store.state
+  const { loginStatus } = store.getters
   switch (loginStatus) {
     case 0:
-      weChatAuth.redirect_uri = processUrl()
+      vueWechatAuth.redirectUri = processUrl()
       await store.dispatch('setLoginStatus', 1)
-      window.location.href = weChatAuth.authUrl
+      window.location.href = vueWechatAuth.authUrl
       break
     case 1:
       try {
-        weChatAuth.returnFromWechat(to.fullPath)
-        await processLogin(weChatAuth.code)
+        vueWechatAuth.returnFromWechat(to.fullPath)
+        await processLogin(vueWechatAuth.code)
         next()
       } catch (err) {
         await store.dispatch('setLoginStatus', 0)
@@ -31,24 +25,21 @@ router.beforeEach(async (to, from, next) => {
     case 2:
       next()
       break
-    default:
-      break
   }
 })
 
 /**
  * 处理url链接
- * @returns {string}
  */
-function processUrl () {
+function processUrl (): string {
   const url = window.location.href
   // 解决多次登录url添加重复的code与state问题
-  const urlParams = qs.parse(url.split('?')[1])
+  const params = parse(url.split('?')[1])
   let redirectUrl = url
-  if (urlParams.code && urlParams.state) {
-    delete urlParams.code
-    delete urlParams.state
-    const query = qs.stringify(urlParams)
+  if (params.code && params.state) {
+    delete params.code
+    delete params.state
+    const query = stringify(params)
     if (query.length) {
       redirectUrl = `${url.split('?')[0]}?${query}`
     } else {
@@ -61,24 +52,17 @@ function processUrl () {
 /**
  * 处理登录
  * @param code
- * @returns {Promise<any>}
  */
-function processLogin (code) {
-  const data = {
-    code
-  }
+function processLogin (code: string): Promise<any> {
+  const data = { code }
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
       const { userInfo, accessToken } = await CommonServer.login(data)
-
       await store.dispatch('setLoginStatus', 2)
       await store.dispatch('setAccessToken', accessToken)
       await store.dispatch('setUserInfo', userInfo)
-
-      resolve({
-        status: 1,
-        data: '登录成功'
-      })
+      resolve({ status: 1, data: '登录成功' })
     } catch (err) {
       reject(err)
     }
